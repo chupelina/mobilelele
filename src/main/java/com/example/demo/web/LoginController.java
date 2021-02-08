@@ -17,17 +17,24 @@ public class LoginController {
 
 
     @GetMapping("/users/login")
-    public String showLogin(){
+    public String showLogin() {
         return "auth-login";
     }
+
     @PostMapping("/users/login")
-    public String login(UserLoginServiceModel userLoginServiceModel){
-        if(userService.authenticate(userLoginServiceModel.getUsername(), userLoginServiceModel.getPassword())){
-        userService.loginUser(userLoginServiceModel.getUsername());
+    public String login(UserLoginServiceModel userLoginServiceModel) {
+        if (userService.authenticate(userLoginServiceModel.getUsername(), userLoginServiceModel.getPassword())) {
+            userService.loginUser(userLoginServiceModel.getUsername());
             return "redirect:/";
-        }else{
+        } else {
             return "redirect:/users/login";
         }
+    }
+
+    @PostMapping("/users/logout")
+    public String logout() {
+        userService.logoutUser();
+        return "redirect:/";
     }
 
 }
