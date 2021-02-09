@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>MobiLeLeLe</title>
@@ -11,7 +12,8 @@
 </head>
 
 <body>
-<div>
+
+<div th:fragment="navbar">
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
         <a class="navbar-brand" href="/"><img alt="car picture" src="/img/car.png" class="logo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -25,13 +27,13 @@
                 >
                     <a class="nav-link" href="/brands/all">All Brands</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:unless="${@currentUser.isAnonymous()}">
                     <a class="nav-link" href="/offers/add">Add Offer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/offers/all">All Offers</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li th:if="${@currentUser.isAdmin()}" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Admin
@@ -44,27 +46,28 @@
                     </div>
                 </li>
                 <li class="nav-item" th:unless="${@currentUser.isAnonymous()}">
-                    <form method="POST" th:action="@{/users/logout}">
-                    <div class="form-inline my-2 my-lg-0 border px-3">
-                        <div class="logged-user">
-                            Welcome, <span th:text="${@currentUser.name}"></span>
+                    <form method="POST"
+                          th:action="@{/users/logout}">
+                        <div class="form-inline my-2 my-lg-0 border px-3">
+                            <div class="logged-user"
+                                 >Welcome, <span th:text="${@currentUser.name}"></span>!</div>
+                            <input type="submit" class="btn nav-link" value="Logout"></input>
                         </div>
-                        <input type="submit" class="btn nav-link" value="Logout">
-                    </div>
                     </form>
+
                 </li>
 
                 <li class="nav-item" th:if="${@currentUser.isAnonymous()}">
                     <a class="nav-link" href="/users/register">Register</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/login" th:if="${@currentUser.isAnonymous()}">Login</a>
+                <li class="nav-item" th:if="${@currentUser.isAnonymous()}">
+                    <a class="nav-link" href="/users/login">Login</a>
                 </li>
 
             </ul>
         </div>
     </nav>
-
 </div>
+
 </body>
 </html>

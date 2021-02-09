@@ -11,7 +11,7 @@ public class UserEntity  extends BaseEntity {
     private String firstName;
     private String lastName;
     private boolean isActive;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> roles;
     private String imageUrl;
 

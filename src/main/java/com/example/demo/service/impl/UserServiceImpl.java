@@ -1,13 +1,17 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.entities.UserEntity;
+import com.example.demo.model.entities.UserRoleEntity;
+import com.example.demo.model.entities.enums.Role;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.CurrentUser;
 import com.example.demo.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,7 +38,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginUser(String username) {
-   currentUser.setAnonymous(false).setName(username);
+        UserEntity user = userRepository.findByUsername(username).orElseThrow();
+        List<Role> userRoles = user.getRoles().stream()
+                .map(UserRoleEntity::getRole).collect(Collectors.toList());
+   currentUser.setAnonymous(false).setName(user.getUsername())
+   .setUserRoles(userRoles);
     }
 
     @Override
