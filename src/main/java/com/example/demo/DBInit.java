@@ -3,11 +3,9 @@ package com.example.demo;
 import com.example.demo.model.entities.*;
 import com.example.demo.model.entities.enums.CategoryEnum;
 import com.example.demo.model.entities.enums.EngineEnum;
+import com.example.demo.model.entities.enums.Role;
 import com.example.demo.model.entities.enums.TransmissionEnum;
-import com.example.demo.repository.BrandRepository;
-import com.example.demo.repository.ModelRepository;
-import com.example.demo.repository.OfferRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -23,13 +21,15 @@ public class DBInit implements CommandLineRunner {
     private final OfferRepository offerRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final RolesRepository rolesRepository;
 
-    public DBInit(BrandRepository brandRepository, ModelRepository modelRepository, OfferRepository offerRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public DBInit(BrandRepository brandRepository, ModelRepository modelRepository, OfferRepository offerRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, RolesRepository rolesRepository) {
         this.brandRepository = brandRepository;
         this.modelRepository = modelRepository;
         this.offerRepository = offerRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.rolesRepository = rolesRepository;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class DBInit implements CommandLineRunner {
         setEscort(fordBrand);
         setNc750s(hondaBrand);
         createFiestaOffer(fiesta);
-        initAdmin();
+        initUsers();
     }
 
     private void createFiestaOffer(ModelEntity model) {
@@ -62,12 +62,23 @@ public class DBInit implements CommandLineRunner {
         offerRepository.save(fiestaOffer);
     }
 
-    private void initAdmin() {
+    private void initUsers() {
+        UserRoleEntity adminRole = new UserRoleEntity();
+        adminRole.setRole(Role.ADMIN);
+        UserRoleEntity userRole = new UserRoleEntity();
+        userRole.setRole(Role.USER);
+        rolesRepository.saveAll(List.of(adminRole, userRole));
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName("Stamat").setLastName("Karadaq").setUsername("admin")
-                .setPassword(passwordEncoder.encode("topsecret"));
+                .setPassword(passwordEncoder.encode("admin"))
+        .setRoles(List.of(adminRole, userRole));
         setDateTimes(userEntity);
-        userRepository.save(userEntity);
+        UserEntity user = new UserEntity();
+        user.setFirstName("Pesho").setLastName("Ivanov").setUsername("user")
+                .setPassword(passwordEncoder.encode("user"))
+                .setRoles(List.of(userRole));
+        setDateTimes(user);
+        userRepository.saveAll(List.of(user, userEntity));
     }
 
     private void setNc750s(BrandEntity hondaBrand) {

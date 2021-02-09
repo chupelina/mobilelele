@@ -22,4 +22,5 @@ public class UserLoginServiceModel {
         this.password = password;
         return this;
     }
+
 }
