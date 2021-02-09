@@ -19,4 +19,9 @@ public class OffersController {
         model.addAttribute("offers", offerService.getAllOffers());
         return "offers";
     }
+
+    @GetMapping("/add")
+    public String addOffers(){
+        return "offer-add";
+    }
 }
