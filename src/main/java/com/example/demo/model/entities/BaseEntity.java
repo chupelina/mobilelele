@@ -1,9 +1,6 @@
 package com.example.demo.model.entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.Instant;
 
 @MappedSuperclass
@@ -30,6 +27,16 @@ public class BaseEntity {
     public BaseEntity setId(Long id) {
         this.id = id;
         return this;
+    }
+    @PrePersist
+    public  void prePersist(){
+        setCreated(Instant.now());
+        setUpdated(Instant.now());
+    }
+    @PreUpdate
+    public void  preUpdated(){
+        setUpdated(Instant.now());
+
     }
 
     public BaseEntity setCreated(Instant created) {
