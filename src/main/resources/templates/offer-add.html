@@ -18,7 +18,7 @@
 
 <div class="container">
     <h2 class="text-center text-white">Upload Offer</h2>
-    <form method="POST" 
+    <form method="POST"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
 
@@ -26,8 +26,10 @@
                 <label class="text-center text-white font-weight-bold" for="model">Model</label>
                 <select id="model" class="form-control">
                     <option value="">- Select a model -</option>
-                    <optgroup label="Brand name">
-                        <option>Model</option>
+                    <-- toDO: id-->
+                    <optgroup th:each="brand : ${brands}"
+                              th:label="${brand.name}" label="Brand name">
+                        <option th:each="model : ${brand.models}" th:text="${model.name}">Model</option>
                     </optgroup>
                 </select>
                 <p class="errors alert alert-danger">
@@ -38,7 +40,7 @@
                 <label for="price" class="text-white font-weight-bold">Price</label>
                 <input id="price" type="number" min="0" step="100" class="form-control"
                        placeholder="Suggested price"/>
-                <p  class="errors alert alert-danger">
+                <p class="errors alert alert-danger">
                     Suggested price is required.
                 </p>
             </div>
@@ -48,7 +50,7 @@
                 <label class="text-center text-white font-weight-bold" for="engine">Engine</label>
                 <select id="engine" class="form-control">
                     <option value="">- Select engine type -</option>
-                    <option>
+                    <option th:each="engine : ${engines}" th:text="${engine.name()}" th:value="${engine.name()}">
                         Engine type
                     </option>
                 </select>
@@ -60,7 +62,7 @@
                 <label class="text-center text-white font-weight-bold" for="transmission">Transmission</label>
                 <select id="transmission" class="form-control">
                     <option value="">- Select transmission type -</option>
-                    <option> Transmission type
+                    <option th:each="tr : ${transmissions}" th:text="${tr.name()}" th:value="${tr.name()}"> Transmission type
                     </option>
                 </select>
                 <p class="errors alert alert-danger">
@@ -116,7 +118,7 @@
 </div>
 
 <div>
-    <footer> </footer>
+    <footer></footer>
 </div>
 
 </body>

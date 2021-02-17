@@ -36,10 +36,8 @@ public class DBInit implements CommandLineRunner {
     public void run(String... args) throws Exception {
         BrandEntity fordBrand = new BrandEntity();
         fordBrand.setName("Ford");
-        setDateTimes(fordBrand);
         BrandEntity hondaBrand = new BrandEntity();
         hondaBrand.setName("Honda");
-        setDateTimes(hondaBrand);
         brandRepository.saveAll(List.of(fordBrand, hondaBrand));
         ModelEntity fiesta = setFiesta(fordBrand);
         setEscort(fordBrand);
@@ -58,7 +56,6 @@ public class DBInit implements CommandLineRunner {
                 .setDescription("Karana e ot nemska baba")
                 .setTransmission(TransmissionEnum.MANUAL)
                 .setModel(model);
-        setDateTimes(fiestaOffer);
         offerRepository.save(fiestaOffer);
     }
 
@@ -71,13 +68,11 @@ public class DBInit implements CommandLineRunner {
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName("Stamat").setLastName("Karadaq").setUsername("admin")
                 .setPassword(passwordEncoder.encode("admin"))
-        .setRoles(List.of(adminRole, userRole));
-        setDateTimes(userEntity);
+                .setRoles(List.of(adminRole, userRole));
         UserEntity user = new UserEntity();
         user.setFirstName("Pesho").setLastName("Ivanov").setUsername("user")
                 .setPassword(passwordEncoder.encode("user"))
                 .setRoles(List.of(userRole));
-        setDateTimes(user);
         userRepository.saveAll(List.of(user, userEntity));
     }
 
@@ -88,7 +83,6 @@ public class DBInit implements CommandLineRunner {
                 .setCategory(CategoryEnum.MOTORCYCLE)
                 .setStartYear(2014)
                 .setBrand(hondaBrand);
-        setDateTimes(nc750s);
         modelRepository.save(nc750s);
     }
 
@@ -100,7 +94,6 @@ public class DBInit implements CommandLineRunner {
                 .setStartYear(1981)
                 .setEndYear(2004)
                 .setBrand(fordBrand);
-        setDateTimes(escort);
         modelRepository.save(escort);
     }
 
@@ -111,12 +104,8 @@ public class DBInit implements CommandLineRunner {
                 .setCategory(CategoryEnum.CAR)
                 .setStartYear(1976)
                 .setBrand(brandEntity);
-        setDateTimes(fiesta);
         modelRepository.save(fiesta);
         return fiesta;
     }
 
-    private static void setDateTimes(BaseEntity entity) {
-        entity.setCreated(Instant.now()).setUpdated(Instant.now());
-    }
 }
