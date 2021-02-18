@@ -7,7 +7,11 @@ import com.example.demo.service.BrandService;
 import com.example.demo.service.OfferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/offers")
@@ -39,21 +43,32 @@ public class OffersController {
         model.addAttribute("id", id);
         return "details";
     }
-
+    @DeleteMapping("/offer/{id}")
+    public String delete(@PathVariable Long id,
+                               Model model) {
+       offerService.delete(id);
+        return "redirect:/offers/all";
+    }
 
     @GetMapping("/add")
     public String newOffer(Model model) {
         model.addAttribute("brands", brandService.getAllBrands());
         model.addAttribute("engines", EngineEnum.values());
         model.addAttribute("transmissions", TransmissionEnum.values());
-        System.out.println();
         return "offer-add";
     }
 
     @PostMapping("/add")
-    public String addOffer(@ModelAttribute OfferServiceModel offerModel) {
-       offerService.save(offerModel);
-        return "redirect:/offers/all";
+    public String addOffer(@Valid @ModelAttribute OfferServiceModel offerModel,
+                           BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+      if(bindingResult.hasErrors()){
+          redirectAttributes.addFlashAttribute("offerModel", offerModel);
+          redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerModel",
+                   bindingResult);
+          return "redirect:/offers/add";
+      }
+       long newOfferId = offerService.save(offerModel);
+        return "redirect:/offers/offer/"+newOfferId;
     }
 
 }
