@@ -1,16 +1,31 @@
 package com.example.demo.model.service;
 
+import com.example.demo.model.entities.enums.EngineEnum;
+import com.example.demo.model.entities.enums.TransmissionEnum;
+import com.example.demo.model.validation.YearPastOrPresent;
+
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class OfferServiceModel {
+    @NotEmpty
+    @Size(min = 10, max = 512)
     private String description;
-    private String engine;
-    private Integer imageUrl;
+    @NotNull
+    private EngineEnum engine;
+    @NotNull
+    private String imageUrl;
+    @NotNull
+    @Positive
     private long mileage;
+    @DecimalMin("100")
     private BigDecimal price;
+    @YearPastOrPresent(minYear = 1930)
     private Integer year;
-    private String transmission;
-    private Integer modelId;
+    @NotNull
+    private TransmissionEnum transmission;
+    @NotNull
+    private long modelId;
 
     public String getDescription() {
         return description;
@@ -21,20 +36,20 @@ public class OfferServiceModel {
         return this;
     }
 
-    public String getEngine() {
+    public EngineEnum getEngine() {
         return engine;
     }
 
-    public OfferServiceModel setEngine(String engine) {
+    public OfferServiceModel setEngine(EngineEnum engine) {
         this.engine = engine;
         return this;
     }
 
-    public Integer getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public OfferServiceModel setImageUrl(Integer imageUrl) {
+    public OfferServiceModel setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }
@@ -66,20 +81,20 @@ public class OfferServiceModel {
         return this;
     }
 
-    public String getTransmission() {
+    public TransmissionEnum getTransmission() {
         return transmission;
     }
 
-    public OfferServiceModel setTransmission(String transmission) {
+    public OfferServiceModel setTransmission(TransmissionEnum transmission) {
         this.transmission = transmission;
         return this;
     }
 
-    public Integer getModelId() {
+    public long getModelId() {
         return modelId;
     }
 
-    public OfferServiceModel setModelId(Integer modelId) {
+    public OfferServiceModel setModelId(long modelId) {
         this.modelId = modelId;
         return this;
     }

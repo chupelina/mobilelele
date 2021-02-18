@@ -4,11 +4,21 @@ import com.example.demo.model.entities.BrandEntity;
 import com.example.demo.model.entities.enums.CategoryEnum;
 
 public class ModelViewModel {
+    private long id;
     private String name;
     private CategoryEnum category;
     private String imageUrl;
     private int startYear;
     private int endYear;
+
+    public long getId() {
+        return id;
+    }
+
+    public ModelViewModel setId(long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getName() {
         return name;
