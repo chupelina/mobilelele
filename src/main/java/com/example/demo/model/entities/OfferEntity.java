@@ -20,8 +20,8 @@ public class OfferEntity extends BaseEntity{
     private TransmissionEnum transmission;
     @ManyToOne
     private ModelEntity model;
-//    @ManyToOne
-//    private UserEntity seller;
+    @ManyToOne
+    private UserEntity seller;
 
 
     public int getYear() {
@@ -96,14 +96,14 @@ public class OfferEntity extends BaseEntity{
         return this;
     }
 
-//    public UserEntity getSeller() {
-//        return seller;
-//    }
-//
-//    public OfferEntity setSeller(UserEntity seller) {
-//        this.seller = seller;
-//        return this;
-//    }
+    public UserEntity getSeller() {
+        return seller;
+    }
+
+    public OfferEntity setSeller(UserEntity seller) {
+        this.seller = seller;
+        return this;
+    }
 
     @Override
     public String toString() {

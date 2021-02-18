@@ -19,17 +19,20 @@
 <div class="container">
     <h2 class="text-center text-white">Upload Offer</h2>
     <form method="POST"
+          th:object="${offerModel}"
+          th:action="@{/offers/add}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
 
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="model">Model</label>
-                <select id="model" class="form-control">
-                    <option value="">- Select a model -</option>
+                <select name="modelId"  id="model" class="form-control">
+                    <option  value="">- Select a model -</option>
                     <-- toDO: id-->
                     <optgroup th:each="brand : ${brands}"
                               th:label="${brand.name}" label="Brand name">
-                        <option th:each="model : ${brand.models}" th:text="${model.name}">Model</option>
+                        <option th:each="model : ${brand.models}" th:text="${model.name}"
+                        th:value="${model.id}">Model</option>
                     </optgroup>
                 </select>
                 <p class="errors alert alert-danger">
@@ -38,7 +41,7 @@
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label for="price" class="text-white font-weight-bold">Price</label>
-                <input id="price" type="number" min="0" step="100" class="form-control"
+                <input id="price" name = "price" type="number" min="0" step="100" class="form-control"
                        placeholder="Suggested price"/>
                 <p class="errors alert alert-danger">
                     Suggested price is required.
@@ -48,9 +51,10 @@
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="engine">Engine</label>
-                <select id="engine" class="form-control">
+                <select id="engine" name = "engine"  class="form-control">
                     <option value="">- Select engine type -</option>
-                    <option th:each="engine : ${engines}" th:text="${engine.name()}" th:value="${engine.name()}">
+                    <option th:each="engine : ${engines}" th:text="${engine}" th:value="${engine}"
+                    >
                         Engine type
                     </option>
                 </select>
@@ -60,9 +64,10 @@
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="transmission">Transmission</label>
-                <select id="transmission" class="form-control">
+                <select name = "transmission" id="transmission" class="form-control">
                     <option value="">- Select transmission type -</option>
-                    <option th:each="tr : ${transmissions}" th:text="${tr.name()}" th:value="${tr.name()}"> Transmission type
+                    <option th:each="tr : ${transmissions}" th:text="${tr}" th:value="${tr}"
+                    > Transmission type
                     </option>
                 </select>
                 <p class="errors alert alert-danger">
@@ -73,7 +78,7 @@
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label for="year" class="text-white font-weight-bold">Year</label>
-                <input id="year" type="number" min="1900" max="2099" step="1" class="form-control"
+                <input name = "year" id="year" type="number" min="1900" max="2099" step="1" class="form-control"
                        placeholder="Manufacturing year"/>
                 <p class="errors alert alert-danger">
                     Manufacturing year is required.
@@ -81,10 +86,10 @@
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label for="mileage" class="text-white font-weight-bold">Mileage</label>
-                <input id="mileage" type="number" min="0" max="900000" step="1000"
+                <input name ="mileage" id="mileage" type="number" min="0" max="900000" step="1000"
                        class="form-control"
                        placeholder="Mileage in kilometers"/>
-                <p class="errors alert alert-danger">
+                <p class="errors alert alert-danger" >
                     Mileage in kilometers is required.
                 </p>
             </div>
@@ -93,7 +98,7 @@
         <div class="form-group">
             <label class="text-white font-weight-bold" for="description">Description</label>
             <textarea id="description" type="textarea" class="form-control" rows="3"
-                      placeholder="Description"></textarea>
+                      placeholder="Description" name = "description"></textarea>
             <p class="errors alert alert-danger">
                 Description is required.
             </p>
@@ -101,7 +106,7 @@
         <div class="form-group">
             <label class="text-white font-weight-bold" for="imageUrl">Image URL</label>
             <input id="imageUrl" type="url" class="form-control"
-                   placeholder="Put vehicle image URL here">
+                   placeholder="Put vehicle image URL here" name = "imageUrl">
             <p class="errors alert alert-danger">
                 Vehicle image URL is required.
             </p>
