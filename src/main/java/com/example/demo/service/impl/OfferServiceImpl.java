@@ -50,6 +50,11 @@ public class OfferServiceImpl implements OfferService {
         return newOffer.getId();
     }
 
+    @Override
+    public void delete(long id) {
+        offerRepository.deleteById(id);
+    }
+
     private OfferEntity asNewEntity(OfferServiceModel model) {
         OfferEntity offerEntity = new OfferEntity();
         offerEntity = modelMapper.map(model, OfferEntity.class);
